@@ -11,10 +11,10 @@ class Node():
         self.classification = classification
         self.attribute = attribute
 
-	#indent: number - number of spaces to indent this node by
     def print(self):
         print self.toStr(0)
 
+	#indent: number - number of spaces to indent this node by
 	def toStr(self, indent):
 		str = ""
 		nextIndent = indent + 2
