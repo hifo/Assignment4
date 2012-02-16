@@ -2,6 +2,7 @@
 from __future__ import division
 
 import math
+import decisionTreeNode
 
 classification = [1,2,3]
 
@@ -34,12 +35,21 @@ def dtl(examples, attributes, default):
 
 #function CHOOSE-ATTRIBUTE(attributes, examples) returns attribute
 #	return attribute with highest gain
-#def chooseAttribute(attributes, examples):
-    
+def chooseAttribute(attributes, examples):
+    gain = 0
+    attr = None
+    for value in attribute:
+        newGain = gain(value, examples)
+        if newGain > gain:
+            gain = newGain
+            attr = value
+    return attr
 
 #function MODE(examples) returns a decision tree
 #	return a new decision tree w/ answer = mode of results of examples
 
+#def mode(examples):
+    
 #function GAIN(attribute, examples) returns number
 #	gain = ENTROPY(examples)
 #	for each value of attribute v:
