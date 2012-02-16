@@ -33,18 +33,6 @@ def dtl(examples, attributes, default):
         #for each
         return tree
 
-#function CHOOSE-ATTRIBUTE(attributes, examples) returns attribute
-#	return attribute with highest gain
-def chooseAttribute(attributes, examples):
-    gain = 0
-    attr = None
-    for value in attribute:
-        newGain = gain(value, examples)
-        if newGain > gain:
-            gain = newGain
-            attr = value
-    return attr
-
 #function MODE(examples) returns a decision tree
 #	return a new decision tree w/ answer = mode of results of examples
 
@@ -57,7 +45,7 @@ def chooseAttribute(attributes, examples):
 #		gain = gain - weight * ENTROPY(examples with attribute = v)
 #	return gain
 
-def gain(attribute, examples):
+def calcGain(attribute, examples):
     gain = entropy(examples)
     for v in attribute:
         weight = examples.count(v)/len(examples)
@@ -84,7 +72,20 @@ def entropy(examples):
             entropy = entropy - (prob * math.log(prob,2))
     return entropy
 
+#function CHOOSE-ATTRIBUTE(attributes, examples) returns attribute
+#	return attribute with highest gain
+def chooseAttribute(attributes, examples):
+    gain = 0
+    attr = None
+    for value in attributes:
+        newGain = calcGain(value, examples)
+        if newGain > gain:
+            gain = newGain
+            attr = value
+    return attr
+
 
 
 examples = [1,1,2]
 print "TESTING FUNCTIONS"
+print chooseAttribute([1,2,3,4], examples)
