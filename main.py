@@ -26,18 +26,29 @@ def dtl(examples, attributes, default):
     elif examples.count(examples[0]) == len(examples):
         return examples[0]
     elif attributes == None:
-        return MODE(examples)
+        return mode(examples)
     else:
         best = chooseAttribute(attributes, examples)
         tree = best
-        #for each
+        for v in best:
+            subexamples = 
         return tree
 
 #function MODE(examples) returns a decision tree
 #	return a new decision tree w/ answer = mode of results of examples
 
-#def mode(examples):
-    
+def mode(examples):
+    count = 0
+    mode = 0
+    for ex in examples:
+        temp_count = examples.count(ex)
+        print "temp_count : {}".format(temp_count)
+        if temp_count > count:
+            count = temp_count
+            mode = ex
+            print ex
+    decision = decisionTreeNode.Node(None, None, mode, None)
+    return decision
 #function GAIN(attribute, examples) returns number
 #	gain = ENTROPY(examples)
 #	for each value of attribute v:
@@ -90,3 +101,4 @@ def chooseAttribute(attributes, examples):
 
 examples = [1,1,2]
 
+print mode(examples)
