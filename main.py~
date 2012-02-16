@@ -37,7 +37,7 @@ def dtl(examples, attributes, default):
 #	return a new decision tree w/ answer = mode of results of examples
 
 def mode(examples):
-    decision = Node(None, None, 5, None)
+    decision = decisionTreeNode.Node(None, None, 5, None)
     return decision
 #function GAIN(attribute, examples) returns number
 #	gain = ENTROPY(examples)
