@@ -6,3 +6,4 @@ class Node():
         self.children = children
         self.classification = classification
         self.attribute = attribute
+

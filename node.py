@@ -7,3 +7,10 @@ class Node():
         self.classification = classification
         self.attribute = attribute
 
+    def print(self):
+        if(self.classification != None):
+            print self.classification
+        elif(self.attribute != None):
+            print "{}?".format(self.attribute)
+        for child in self.children:
+            child.print()
