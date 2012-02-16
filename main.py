@@ -1,3 +1,5 @@
+#!usr/bin/env/python
+
 #function DTL(examples, attributes, default) returns a decision tree
 #	if examples is empty then return default
 #	else if all examples have some classification then return that classification
@@ -12,4 +14,21 @@
 #		return tree
 
 #function CHOOSE-ATTRIBUTE(attributes, examples) returns attribute
-#	return attribute with lowest entropy
+#	return attribute with highest gain
+
+#function MODE(examples) returns a decision tree
+#	return a new decision tree w/ answer = mode of results of examples
+
+#function ENTROPY(examples) returns number
+#	entropy = 0
+#	for each classification value v:
+#		prob = (examples classified as v)/(count of all examples)
+#		entropy = entropy - (prob * log_2(prob))
+#	return entropy
+
+#function GAIN(attribute, examples) returns number
+#	gain = ENTROPY(examples)
+#	for each value of attribute v:
+#		weight = (number of examples with attribute = v)/(total number of examples)
+#		gain = gain - weight * ENTROPY(examples with attribute = v)
+#	return gain
