@@ -26,11 +26,12 @@ def dtl(examples, attributes, default):
     elif examples.count(examples[0]) == len(examples):
         return examples[0]
     elif attributes == None:
-        return MODE(examples)
+        return mode(examples)
     else:
         best = chooseAttribute(attributes, examples)
         tree = best
-        #for each
+        for v in best:
+            subexamples = 
         return tree
 
 #function MODE(examples) returns a decision tree

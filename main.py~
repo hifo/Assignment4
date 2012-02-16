@@ -46,7 +46,7 @@ def mode(examples):
             count = temp_count
             mode = ex
             print ex
-    decision = decisionTreeNode.Node(None, None, ex, None)
+    decision = decisionTreeNode.Node(None, None, mode, None)
     return decision
 #function GAIN(attribute, examples) returns number
 #	gain = ENTROPY(examples)
