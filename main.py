@@ -47,11 +47,13 @@ def dtl(examples, attributes, default):
 
 def calcGain(attribute, examples):
     gain = entropy(examples)
+    temp_examples = []
     for v in attribute:
         weight = examples.count(v)/len(examples)
         for i in examples:
-            if not (math.isNan(examples.index(v))):
-                temp_examples.append(examples.pop(examples.index(v)))
+            try: examples.index(v)
+            except ValueError: continue
+            temp_examples.append(examples[examples.index(v)])
         gain = gain - weight * entropy(temp_examples)
     return gain
 #function ENTROPY(examples) returns number
@@ -77,15 +79,14 @@ def entropy(examples):
 def chooseAttribute(attributes, examples):
     gain = 0
     attr = None
-    for value in attributes:
-        newGain = calcGain(value, examples)
+    for set in attributes:
+        newGain = calcGain(set, examples)
         if newGain > gain:
             gain = newGain
-            attr = value
+            attr = set
     return attr
 
 
 
 examples = [1,1,2]
-print "TESTING FUNCTIONS"
-print chooseAttribute([1,2,3,4], examples)
+
