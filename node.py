@@ -15,7 +15,7 @@ class Node():
         print self
     
     def __str__(self):
-        self.toStr(0)
+        return self.toStr(0)
         
     #indent: number - number of spaces to indent this node by
     def toStr(self, indent):
@@ -28,7 +28,9 @@ class Node():
             for val, child in self.children:
                 #print value : node
                 str = str + nextIndent*" " + val + " :\n" + child.toStr(nextIndent) + ",\n"
-            str = str + indent*" "+"}"
+                str = str + indent*" "+"}"
+                
+
 
 testNode = Node(None, None, 3, None)
-testNode.print()
+testNode.printTree()
