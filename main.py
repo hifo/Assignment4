@@ -36,8 +36,9 @@ def dtl(examples, attributes, default):
 #function MODE(examples) returns a decision tree
 #	return a new decision tree w/ answer = mode of results of examples
 
-#def mode(examples):
-    
+def mode(examples):
+    decision = decisionTreeNode.Node(None, None, 5, None)
+    return decision
 #function GAIN(attribute, examples) returns number
 #	gain = ENTROPY(examples)
 #	for each value of attribute v:
@@ -90,3 +91,4 @@ def chooseAttribute(attributes, examples):
 
 examples = [1,1,2]
 
+print mode(examples)
