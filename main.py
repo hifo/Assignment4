@@ -51,7 +51,7 @@ def gain(attribute, examples):
     for v in attribute:
         weight = examples.count(v)/len(examples)
         for i in examples:
-            if !math.isNan(examples.index(v)):
+            if not (math.isNan(examples.index(v))):
                 temp_examples.append(examples.pop(examples.index(v))
         gain = gain - weight * entropy(temp_examples)
     return gain

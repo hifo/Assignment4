@@ -50,6 +50,11 @@ def gain(attribute, examples):
     gain = entropy(examples)
     for v in attribute:
         weight = examples.count(v)/len(examples)
+        for i in examples:
+            if ! (math.isNan(examples.index(v))):
+                temp_examples.append(examples.pop(examples.index(v))
+        gain = gain - weight * entropy(temp_examples)
+    return gain
 #function ENTROPY(examples) returns number
 #	entropy = 0
 #	for each classification value v:
