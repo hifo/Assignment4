@@ -22,7 +22,8 @@ classification = [1,2,3]
 def dtl(examples, attributes, default):
     if examples == None:
         return default
-    #helper function to check example classifications
+    elif examples.count(examples[0]) == len(examples):
+        return examples[0]
     elif attributes == None:
         return MODE(examples)
     else:
@@ -52,7 +53,7 @@ def gain(attribute, examples):
         weight = examples.count(v)/len(examples)
         for i in examples:
             if not (math.isNan(examples.index(v))):
-                temp_examples.append(examples.pop(examples.index(v))
+                temp_examples.append(examples.pop(examples.index(v)))
         gain = gain - weight * entropy(temp_examples)
     return gain
 #function ENTROPY(examples) returns number
@@ -75,5 +76,5 @@ def entropy(examples):
 
 
 
-examples = [1,4,5]
-print entropy(examples)
+examples = [1,1,2]
+print "TESTING FUNCTIONS"
