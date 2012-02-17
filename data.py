@@ -1,7 +1,7 @@
 import csv
 
-namesFile = ""
-dataFile = ""
+namesFile = "restaurant.names"
+dataFile = "restaurant.data"
 
 #domain: tuple(number, set or {'min':number, 'max':number})
 #               0 if set
@@ -24,5 +24,19 @@ def indexOfAttribute(attr):
 #create mapping from domains in data file to discrete values
 #get data from data file
 
+# a : classification
+# d : discrete
+# i : ignore
+# c : continuous
 
-reader = csv.reader(open(dataFile, 'rb'), delimiter=',')
+namesreader = csv.reader(open(namesFile, 'rb'), delimiter=',')
+datareader = csv.reader(open(dataFile, 'rb'), delimiter=',')
+
+examples = []
+
+
+for row in namesreader:
+    examples.append((row[0].strip(), row[1].strip()))
+
+
+print examples
