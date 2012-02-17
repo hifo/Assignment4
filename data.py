@@ -4,8 +4,11 @@ g_attributes = []
 
 def indexOfAttribute(attr):
 	index = 0
+	print "length of g_attributes : {}".format(len(g_attributes))
 	for a in g_attributes:
+		print "in index for"
 		if getName(a) == getName(attr):
+			print "in index if"
 			return index
 		index = index + 1
 	return -1
@@ -48,5 +51,6 @@ def parseFile(dataFile, namesFile):
 			i = i + 1
 				
 	data = (examples, attributes)
+	global g_attributes
 	g_attributes = attributes
 	return data
