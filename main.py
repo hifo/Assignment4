@@ -25,13 +25,13 @@ def run(dataFile, namesFile):
 	#print information gain for each attribute at root
 	for attr in attributes:
 		gain = calcGain(attr, teaching)
-		print "Info gain for {} = {}".format(data.getName(attr), gain)
+		print "Info gain for " + repr(data.getName(attr)) + " = " + repr(gain)
 	#use test set to test the tree
 	testResults = map(tree.search, testSet)
 	testAnswers = map(classOf, testSet)
 	testSuccesses = map(lambda r, a: r == a, testResults, testAnswers)
 	acc = accuracy(len(testSuccesses), testSuccesses.count(False))
-	print "Accuracy = {}".format(acc)
+	print "Accuracy = " + repr(acc)
 	
 	
 

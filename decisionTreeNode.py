@@ -2,7 +2,7 @@
 
 import data
 
-class Node():
+class Node:
 	#parent: Node
 	#children: dict((attribute value) -> Node)
 	#classification: attribute value (of the classification attribute)
@@ -27,13 +27,13 @@ class Node():
 		str = ""
 		nextIndent = indent + 2
 		if(self.classification != None):
-			return indent*" "+"Classification = {}".format(self.classification)
+			return indent*" "+"Classification = %s"%self.classification
 		elif(self.attribute != None):
-			str = indent*" "+"{}? : {{\n".format(self.attribute[0])
+			str = indent*" " + "%s? : {\n"%self.attribute[0]
 			for val, child in self.children.iteritems():
 				#print value : node
-				str = str + nextIndent*" " + "{}:\n".format(val)
-				str = str + "{},\n".format(child.toStr(nextIndent))
+				str = str + nextIndent*" " + "%s:\n"%val
+				str = str + "%s,\n"%child.toStr(nextIndent)
 			str = str + indent*" "+"}"
 			return str
 
