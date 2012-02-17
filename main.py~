@@ -15,7 +15,7 @@ def run(dataFile, namesFile):
 	examples, attributes = data.parseFile(dataFile, namesFile)
 	classification = attributes[-1]
 	#split data into the teaching set and the test set
-	splitIdx = math.floor(len(examples) * 0.8)
+	splitIdx = int(math.floor(len(examples) * 0.8))
 	teaching = examples[:splitIdx]
 	testSet = examples[splitIdx:]
 	#build tree
@@ -38,54 +38,59 @@ def run(dataFile, namesFile):
 #		return tree
 
 def dtl(examples, attributes, default):
-    if examples == None:
-        return default
-    elif len(matchingExamples(examples, classification, examples[0][-1])) == len(examples):
-        return decisionTreeNode.Node(None, None, examples[0][-1], None)
-    elif attributes == None:
-        return mode(examples)
-    else:
-        best = chooseAttribute(attributes, examples)
-        tree = decisionTreeNode.Node(None, [], None, best)
-        for v in best[1]:
-            subexamples = matchingExamples(examples, best, v)
-            reducedAttrs = attributes
-            reducedAttrs.remove(best)
-            subtree = dtl(subexamples, reducedAttrs, mode(examples))
-            tree.children[v] = subtree
-            subtree.parent = tree
-        return tree
+	if examples == []:
+		return default
+	elif len(matchingExamples(examples, classification, classOf(examples[0]))) == len(examples):
+		return decisionTreeNode.Node(None, None, examples[0][-1], None)
+	elif attributes == []:
+		return mode(examples)
+	else:
+		best = chooseAttribute(attributes, examples)
+		tree = decisionTreeNode.Node(None, {}, None, best)
+		if best != None:
+			for v in data.getDomain(best):
+				subexamples = matchingExamples(examples, best, v)
+				reducedAttrs = reduceAttrList(attributes, best)
+				subtree = dtl(subexamples, reducedAttrs, mode(examples))
+				tree.children[v] = subtree
+				subtree.parent = tree
+			return tree
+		else:
+			print "Best is None!"
+			return mode(examples)
+
+def reduceAttrList(attributes, toRemove):
+	return filter(lambda attr: data.getName(attr) != data.getName(toRemove), attributes)
 
 #returns subset of given examples in which
 #the given attribute of each item in the set has a value
 #which matches the given value
 def matchingExamples(examples, attribute, value):
-    attrIdx = data.indexOfAttribute(attribute)
-    return filter(lambda ex: ex[attrIdx] == value, examples)
+	attrIdx = data.indexOfAttribute(attribute)
+	print attrIdx
+	return filter(lambda ex: ex[attrIdx] == value, examples)
 
 #given a datum (as in an element of examples), returns the classification of the datum
 def classOf(datum):
-    return datum[-1]
+	return datum[-1]
 
 def attributeValOf(datum, attribute):
-    return datum[data.indexOfAttribute(attribute)]
+	return datum[data.indexOfAttribute(attribute)]
 
 #function MODE(examples) returns a decision tree
 #	return a new decision tree w/ answer = mode of results of examples
 
 def mode(examples):
-    count = 0
-    mode = 0
-    classes = map(classOf, examples)
-    for ex in set(classes):
-        temp_count = classes.count(ex)
-        print "temp_count : {}".format(temp_count)
-        if temp_count > count:
-            count = temp_count
-            mode = ex
-            print ex
-    decision = decisionTreeNode.Node(None, None, mode, None)
-    return decision
+	count = 0
+	mode = 0
+	classes = map(classOf, examples)
+	for ex in set(classes):
+		temp_count = classes.count(ex)
+		if temp_count > count:
+			count = temp_count
+			mode = ex
+	decision = decisionTreeNode.Node(None, None, mode, None)
+	return decision
 #function GAIN(attribute, examples) returns number
 #	gain = ENTROPY(examples)
 #	for each value of attribute v:
@@ -94,13 +99,13 @@ def mode(examples):
 #	return gain
 
 def calcGain(attribute, examples):
-    gain = entropy(examples)
-    attrVals = map(lambda x: attributeValOf(x, attribute), examples)
-    for v in getDomain(attribute):
-        weight = attrVals.count(v)/len(examples)
-        temp_examples = filter(lambda i: attributeValOf(i, attribute) == v, examples)
-        gain = gain - weight * entropy(temp_examples)
-    return gain
+	gain = entropy(examples)
+	attrVals = map(lambda x: attributeValOf(x, attribute), examples)
+	for v in data.getDomain(attribute):
+		weight = attrVals.count(v)/len(examples)
+		temp_examples = filter(lambda i: attributeValOf(i, attribute) == v, examples)
+		gain = gain - weight * entropy(temp_examples)
+	return gain
 #function ENTROPY(examples) returns number
 #	entropy = 0
 #	for each classification value v:
@@ -109,37 +114,36 @@ def calcGain(attribute, examples):
 #	return entropy
 
 def entropy(examples):
-    entropy = 0
-    prob = 0
-    classes = map(classOf, examples)
-    for v in classification:
-        prob = classes.count(v)/len(examples)
-        #do not take log of 0 - throw out this term
-        if prob == 0:
-            continue
-        else:
-            entropy = entropy - (prob * math.log(prob,2))
-    return entropy
+	entropy = 0
+	prob = 0
+	classes = map(classOf, examples)
+	for v in classification:
+		prob = classes.count(v)/len(examples)
+		#do not take log of 0 - throw out this term
+		if prob == 0:
+			continue
+		else:
+			entropy = entropy - (prob * math.log(prob,2))
+	return entropy
 
 #function CHOOSE-ATTRIBUTE(attributes, examples) returns attribute
 #	return attribute with highest gain
 def chooseAttribute(attributes, examples):
-    gain = 0
-    attr = None
-    for set in attributes:
-        #do not consider ignore or answer attributes
-        if getDomainType(set) == 'i' or getDomainType(set) == 'a':
-            continue
-        else:
-            newGain = calcGain(set, examples)
-            if newGain > gain:
-                gain = newGain
-                attr = set
-    return attr
+	gain = -1
+	attr = None
+	print "chooseAttribute: attributes = {}".format(attributes)
+	for set in attributes:
+		#do not consider ignore or answer attributes
+		if data.getDomainType(set) == 'i' or data.getDomainType(set) == 'a':
+			continue
+		else:
+			newGain = calcGain(set, examples)
+			if newGain > gain:
+				gain = newGain
+				attr = set
+	return attr
 
 def accuracy(total, mistakes):
-    return (total - mistakes)/total * 100
+	return (total - mistakes)/total * 100
 
-examples = [(1,),(1,),(2,),(1,),(2,),(3,),(1,),(2,),(3,),(1,),(2,),(3,),(1,),(2,),(1,)]
-
-print mode(examples)
+run("restaurant.data", "restaurant.names")
