@@ -49,6 +49,7 @@ def dtl(examples, attributes, default):
 		tree = decisionTreeNode.Node(None, {}, None, best)
 		if best != None:
 			for v in data.getDomain(best):
+				print "dtl: v = {}".format(v)
 				subexamples = matchingExamples(examples, best, v)
 				reducedAttrs = reduceAttrList(attributes, best)
 				subtree = dtl(subexamples, reducedAttrs, mode(examples))
@@ -66,6 +67,7 @@ def reduceAttrList(attributes, toRemove):
 #the given attribute of each item in the set has a value
 #which matches the given value
 def matchingExamples(examples, attribute, value):
+	print "matchingExamples: examples = {}, attribute = {}, value = {}".format(examples, attribute, value)
 	attrIdx = data.indexOfAttribute(attribute)
 	return filter(lambda ex: ex[attrIdx] == value, examples)
 

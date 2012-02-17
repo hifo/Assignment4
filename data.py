@@ -5,7 +5,7 @@ g_attributes = []
 def indexOfAttribute(attr):
 	index = 0
 	for a in g_attributes:
-		if a[0] == attr[0]:
+		if getName(a) == getName(attr):
 			return index
 		index = index + 1
 	return -1
@@ -48,4 +48,5 @@ def parseFile(dataFile, namesFile):
 			i = i + 1
 				
 	data = (examples, attributes)
+	g_attributes = attributes
 	return data
