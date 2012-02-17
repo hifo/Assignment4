@@ -6,7 +6,7 @@ import decisionTreeNode
 
 classification = ("Class", [1,2,3])
 
-#attribute: tuple(string, set)
+#attribute: list(string, string, set)
 #examples: list(tuple)
 
 #function DTL(examples, attributes, default) returns a decision tree
@@ -81,7 +81,7 @@ def mode(examples):
 def calcGain(attribute, examples):
     gain = entropy(examples)
     attrVals = map(lambda x: attributeValOf(x, attribute), examples)
-    for v in attributeDomain(attribute):
+    for v in getDomain(attribute):
         weight = attrVals.count(v)/len(examples)
         temp_examples = filter(lambda i: return attributeValOf(i, attribute) == v, examples)
         gain = gain - weight * entropy(temp_examples)
@@ -113,7 +113,7 @@ def chooseAttribute(attributes, examples):
     attr = None
     for set in attributes:
         #do not consider ignore or answer attributes
-        if attributeType(set) == 'i' or attributeType(set) == 'a':
+        if getDomainType(set) == 'i' or getDomainType(set) == 'a':
             continue
         else:
             newGain = calcGain(set, examples)
