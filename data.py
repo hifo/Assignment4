@@ -3,12 +3,6 @@ import csv
 namesFile = "restaurant.names"
 dataFile = "restaurant.data"
 
-#domain: tuple(number, set or {'min':number, 'max':number})
-#               0 if set
-#               1 if min-max
-#rawAttribute: tuple (string, domain)
-#attribute: tuple(string, set(int))
-
 g_attributes = []
 
 def indexOfAttribute(attr):
@@ -18,6 +12,15 @@ def indexOfAttribute(attr):
             return index
         index = index + 1
     return -1
+
+def getName(attr):
+    return attr[0]
+
+def getDomainType(attr):
+    return attr[1]
+
+def getDomain(attr):
+    return attr[2]
 
 
 #get names and domains of attributes from names file
@@ -29,14 +32,21 @@ def indexOfAttribute(attr):
 # i : ignore
 # c : continuous
 
-namesreader = csv.reader(open(namesFile, 'rb'), delimiter=',')
+namesreader = csv.reader(open(namesFile, 'rb'), skipinitialspace=True)
 datareader = csv.reader(open(dataFile, 'rb'), delimiter=',')
 
 examples = []
-
+attributes = []
 
 for row in namesreader:
-    examples.append((row[0].strip(), row[1].strip()))
+    attributes.append([row[0].strip(), row[1].strip(), set()])
+
+for row in datareader:
+    examples.append(row)
+    i = 0
+    for data in row:
+        attributes[i][2].add(row[i])
+        i = i + 1
 
 
-print examples
+print attributes
