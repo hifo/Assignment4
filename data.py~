@@ -1,8 +1,5 @@
 import csv
 
-namesFile = "restaurant.names"
-dataFile = "restaurant.data"
-
 g_attributes = []
 
 def indexOfAttribute(attr):
@@ -32,21 +29,23 @@ def getDomain(attr):
 # i : ignore
 # c : continuous
 
-namesreader = csv.reader(open(namesFile, 'rb'), skipinitialspace=True)
-datareader = csv.reader(open(dataFile, 'rb'), delimiter=',')
-
-examples = []
-attributes = []
-
-for row in namesreader:
-    attributes.append([row[0].strip(), row[1].strip(), set()])
-
-for row in datareader:
-    examples.append(row)
-    i = 0
-    for data in row:
-        attributes[i][2].add(row[i])
-        i = i + 1
-
-
-print attributes
+#returns a tuple of (examples, attributes)
+def parseFile(dataFile, namesFile):
+    namesreader = csv.reader(open(namesFile, 'rb'), skipinitialspace=True)
+    datareader = csv.reader(open(dataFile, 'rb'), delimiter=',')
+    
+    examples = []
+    attributes = []
+    
+    for row in namesreader:
+        attributes.append([row[0].strip(), row[1].strip(), set()])
+        
+        for row in datareader:
+            examples.append(row)
+            i = 0
+            for data in row:
+                attributes[i][2].add(row[i])
+                i = i + 1
+                
+    data = (examples, attributes)
+    return data

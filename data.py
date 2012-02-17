@@ -44,7 +44,7 @@ def parseFile(dataFile, namesFile):
             examples.append(row)
             i = 0
             for data in row:
-                attributes[i][2].add(row[i])
+                attributes[i][2].add(data)
                 i = i + 1
                 
     data = (examples, attributes)
