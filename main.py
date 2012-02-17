@@ -99,11 +99,9 @@ def mode(examples):
 #	return gain
 
 def calcGain(attribute, examples):
-	print examples
 	gain = entropy(examples)
 	attrVals = map(lambda x: attributeValOf(x, attribute), examples)
 	for v in data.getDomain(attribute):
-		print "calcGain {}".format(examples)
 		weight = attrVals.count(v)/len(examples)
 		temp_examples = filter(lambda i: attributeValOf(i, attribute) == v, examples)
 		gain = gain - weight * entropy(temp_examples)
@@ -122,7 +120,6 @@ def entropy(examples):
 		return 0
 	classes = map(classOf, examples)
 	for v in classification:
-		print "in entropy: {}".format(examples)
 		prob = classes.count(v)/len(examples)
 		#do not take log of 0 - throw out this term
 		if prob == 0:
@@ -136,13 +133,11 @@ def entropy(examples):
 def chooseAttribute(attributes, examples):
 	gain = -1
 	attr = None
-	print "chooseAttribute: attributes = {}".format(attributes)
 	for set in attributes:
 		#do not consider ignore or answer attributes
 		if data.getDomainType(set) == 'i' or data.getDomainType(set) == 'a':
 			continue
 		else:
-			print "In chooseattr {}".format(examples)
 			newGain = calcGain(set, examples)
 			if newGain > gain:
 				gain = newGain

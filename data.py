@@ -4,7 +4,6 @@ g_attributes = []
 
 def indexOfAttribute(attr):
 	index = 0
-	print "length of g_attributes : {}".format(len(g_attributes))
 	for a in g_attributes:
 		if getName(a) == getName(attr):
 			return index
