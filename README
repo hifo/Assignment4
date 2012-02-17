@@ -1,0 +1,11 @@
+Eric Finn
+Hillary Fotino
+CS 4341
+
+Instructions:
+python main.py
+follow prompts
+
+Notes:
+This was originally programmed for python 2.7.2, but was ported to work on 2.4.3 for the CCC machines.
+It should still work on 2.7.2, but we can provide code made for that version if necessary.
