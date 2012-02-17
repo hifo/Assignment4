@@ -1,7 +1,7 @@
 import csv
 
-namesFile = ""
-dataFile = ""
+namesFile
+dataFile
 
 #domain: tuple(number, set or {'min':number, 'max':number})
 #               0 if set
@@ -23,6 +23,3 @@ def indexOfAttribute(attr):
 #get names and domains of attributes from names file
 #create mapping from domains in data file to discrete values
 #get data from data file
-
-
-reader = csv.reader(open(dataFile, 'rb'), delimiter=',')
