@@ -80,13 +80,10 @@ def mode(examples):
 
 def calcGain(attribute, examples):
     gain = entropy(examples)
-    temp_examples = []
-    for v in attribute[1]:
-        weight = map(lambda x: attributeValOf(x, attribute), examples).count(v)/len(examples)
-        for i in examples:
-            try: examples.index(v)
-            except ValueError: continue
-            temp_examples.append(examples[examples.index(v)])
+    attrVals = map(lambda x: attributeValOf(x, attribute), examples)
+    for v in attributeDomain(attribute):
+        weight = attrVals.count(v)/len(examples)
+        temp_examples = filter(lambda i: return attributeValOf(i, attribute) == v, examples)
         gain = gain - weight * entropy(temp_examples)
     return gain
 #function ENTROPY(examples) returns number
@@ -99,8 +96,10 @@ def calcGain(attribute, examples):
 def entropy(examples):
     entropy = 0
     prob = 0
+    classes = map(classOf, examples)
     for v in classification:
-        prob = map(classOf, examples).count(v)/len(examples)
+        prob = classes.count(v)/len(examples)
+        #do not take log of 0 - throw out this term
         if prob == 0:
             continue
         else:
@@ -113,10 +112,14 @@ def chooseAttribute(attributes, examples):
     gain = 0
     attr = None
     for set in attributes:
-        newGain = calcGain(set, examples)
-        if newGain > gain:
-            gain = newGain
-            attr = set
+        #do not consider ignore or answer attributes
+        if attributeType(set) == 'i' or attributeType(set) == 'a':
+            continue
+        else:
+            newGain = calcGain(set, examples)
+            if newGain > gain:
+                gain = newGain
+                attr = set
     return attr
 
 
