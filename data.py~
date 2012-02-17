@@ -13,6 +13,15 @@ def indexOfAttribute(attr):
         index = index + 1
     return -1
 
+def getName(attr):
+    return attr[0]
+
+def getDomainType(attr):
+    return attr[1]
+
+def getDomain(attr):
+    return attr[2]
+
 
 #get names and domains of attributes from names file
 #create mapping from domains in data file to discrete values
