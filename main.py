@@ -85,11 +85,9 @@ def mode(examples):
     classes = map(classOf, examples)
     for ex in set(classes):
         temp_count = classes.count(ex)
-        print "temp_count : {}".format(temp_count)
         if temp_count > count:
             count = temp_count
             mode = ex
-            print ex
     decision = decisionTreeNode.Node(None, None, mode, None)
     return decision
 #function GAIN(attribute, examples) returns number
@@ -132,6 +130,7 @@ def entropy(examples):
 def chooseAttribute(attributes, examples):
     gain = -1
     attr = None
+    print "chooseAttribute: attributes = {}".format(attributes)
     for set in attributes:
         #do not consider ignore or answer attributes
         if data.getDomainType(set) == 'i' or data.getDomainType(set) == 'a':
