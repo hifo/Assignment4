@@ -22,12 +22,17 @@ def run(dataFile, namesFile):
 	#build tree
 	tree = dtl(teaching, attributes, None)
 	print tree
+	#print information gain for each attribute at root
+	for attr in attributes:
+		gain = calcGain(attr, teaching)
+		print "Info gain for {} = {}".format(data.getName(attr), gain)
 	#use test set to test the tree
 	testResults = map(tree.search, testSet)
 	testAnswers = map(classOf, testSet)
 	testSuccesses = map(lambda r, a: r == a, testResults, testAnswers)
 	acc = accuracy(len(testSuccesses), testSuccesses.count(False))
 	print "Accuracy = {}".format(acc)
+	
 	
 
 #function DTL(examples, attributes, default) returns a decision tree
@@ -124,7 +129,7 @@ def entropy(examples):
 	if len(examples) == 0:
 		return 0
 	classes = map(classOf, examples)
-	for v in classification:
+	for v in data.getDomain(classification):
 		prob = classes.count(v)/len(examples)
 		#do not take log of 0 - throw out this term
 		if prob == 0:
