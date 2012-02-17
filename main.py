@@ -23,6 +23,11 @@ def run(dataFile, namesFile):
 	tree = dtl(teaching, attributes, None)
 	print tree
 	#use test set to test the tree
+	testResults = map(tree.search, testSet)
+	testAnswers = map(classOf, testSet)
+	testSuccesses = map(lambda r, a: r == a, testResults, testAnswers)
+	acc = accuracy(len(testSuccesses), testSuccesses.count(False))
+	print "Accuracy = {}".format(acc)
 	
 
 #function DTL(examples, attributes, default) returns a decision tree
@@ -147,4 +152,4 @@ def chooseAttribute(attributes, examples):
 def accuracy(total, mistakes):
 	return (total - mistakes)/total * 100
 
-run("restaurant.data", "restaurant.names")
+run("zoo.data", "zoo.names")

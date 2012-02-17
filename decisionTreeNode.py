@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 
+import data
+
 class Node():
 	#parent: Node
 	#children: dict((attribute value) -> Node)
@@ -34,3 +36,9 @@ class Node():
 				str = str + "{},\n".format(child.toStr(nextIndent))
 			str = str + indent*" "+"}"
 			return str
+
+	def search(self, datum):
+		if(self.classification != None):
+			return self.classification
+		elif(self.attribute != None):
+			return self.children[datum[data.indexOfAttribute(self.attribute)]].search(datum)
