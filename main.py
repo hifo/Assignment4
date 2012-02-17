@@ -157,4 +157,6 @@ def chooseAttribute(attributes, examples):
 def accuracy(total, mistakes):
 	return (total - mistakes)/total * 100
 
-run("zoo.data", "zoo.names")
+dfile = raw_input('Enter data file name: ')
+nfile = raw_input('Enter names file name: ')
+run(dfile, nfile)
