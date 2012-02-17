@@ -51,5 +51,6 @@ def parseFile(dataFile, namesFile):
 			i = i + 1
 				
 	data = (examples, attributes)
-	global g_attributes = attributes
+	global g_attributes
+	g_attributes = attributes
 	return data

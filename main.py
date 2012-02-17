@@ -13,6 +13,7 @@ classification = []
 
 def run(dataFile, namesFile):
 	examples, attributes = data.parseFile(dataFile, namesFile)
+	global classification
 	classification = attributes[-1]
 	#split data into the teaching set and the test set
 	splitIdx = int(math.floor(len(examples) * 0.8))
@@ -49,7 +50,6 @@ def dtl(examples, attributes, default):
 		tree = decisionTreeNode.Node(None, {}, None, best)
 		if best != None:
 			for v in data.getDomain(best):
-				print "dtl: v = {}".format(v)
 				subexamples = matchingExamples(examples, best, v)
 				reducedAttrs = reduceAttrList(attributes, best)
 				subtree = dtl(subexamples, reducedAttrs, mode(examples))
@@ -67,7 +67,6 @@ def reduceAttrList(attributes, toRemove):
 #the given attribute of each item in the set has a value
 #which matches the given value
 def matchingExamples(examples, attribute, value):
-	print "matchingExamples: examples = {}, attribute = {}, value = {}".format(examples, attribute, value)
 	attrIdx = data.indexOfAttribute(attribute)
 	return filter(lambda ex: ex[attrIdx] == value, examples)
 
@@ -100,9 +99,11 @@ def mode(examples):
 #	return gain
 
 def calcGain(attribute, examples):
+	print examples
 	gain = entropy(examples)
 	attrVals = map(lambda x: attributeValOf(x, attribute), examples)
 	for v in data.getDomain(attribute):
+		print "calcGain {}".format(examples)
 		weight = attrVals.count(v)/len(examples)
 		temp_examples = filter(lambda i: attributeValOf(i, attribute) == v, examples)
 		gain = gain - weight * entropy(temp_examples)
@@ -117,8 +118,11 @@ def calcGain(attribute, examples):
 def entropy(examples):
 	entropy = 0
 	prob = 0
+	if len(examples) == 0:
+		return 0
 	classes = map(classOf, examples)
 	for v in classification:
+		print "in entropy: {}".format(examples)
 		prob = classes.count(v)/len(examples)
 		#do not take log of 0 - throw out this term
 		if prob == 0:
@@ -138,6 +142,7 @@ def chooseAttribute(attributes, examples):
 		if data.getDomainType(set) == 'i' or data.getDomainType(set) == 'a':
 			continue
 		else:
+			print "In chooseattr {}".format(examples)
 			newGain = calcGain(set, examples)
 			if newGain > gain:
 				gain = newGain

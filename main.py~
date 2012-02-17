@@ -13,6 +13,7 @@ classification = []
 
 def run(dataFile, namesFile):
 	examples, attributes = data.parseFile(dataFile, namesFile)
+	global classification
 	classification = attributes[-1]
 	#split data into the teaching set and the test set
 	splitIdx = int(math.floor(len(examples) * 0.8))
@@ -67,7 +68,6 @@ def reduceAttrList(attributes, toRemove):
 #which matches the given value
 def matchingExamples(examples, attribute, value):
 	attrIdx = data.indexOfAttribute(attribute)
-	print attrIdx
 	return filter(lambda ex: ex[attrIdx] == value, examples)
 
 #given a datum (as in an element of examples), returns the classification of the datum
@@ -99,9 +99,11 @@ def mode(examples):
 #	return gain
 
 def calcGain(attribute, examples):
+	print examples
 	gain = entropy(examples)
 	attrVals = map(lambda x: attributeValOf(x, attribute), examples)
 	for v in data.getDomain(attribute):
+		print "calcGain {}".format(examples)
 		weight = attrVals.count(v)/len(examples)
 		temp_examples = filter(lambda i: attributeValOf(i, attribute) == v, examples)
 		gain = gain - weight * entropy(temp_examples)
@@ -118,6 +120,7 @@ def entropy(examples):
 	prob = 0
 	classes = map(classOf, examples)
 	for v in classification:
+		print "in entropy: {}".format(examples)
 		prob = classes.count(v)/len(examples)
 		#do not take log of 0 - throw out this term
 		if prob == 0:
@@ -137,6 +140,7 @@ def chooseAttribute(attributes, examples):
 		if data.getDomainType(set) == 'i' or data.getDomainType(set) == 'a':
 			continue
 		else:
+			print "In chooseattr {}".format(examples)
 			newGain = calcGain(set, examples)
 			if newGain > gain:
 				gain = newGain
