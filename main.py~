@@ -3,11 +3,26 @@ from __future__ import division
 
 import math
 import decisionTreeNode
+import data
 
-classification = ("Class", [1,2,3])
+classification = []
 
-#attribute: tuple(string, set)
-#examples: list(tuple)
+#attribute: list(string, string, set)
+#examples: list(tuples)
+
+
+def run(dataFile, namesFile):
+	examples, attributes = data.parseFile(dataFile, namesFile)
+	classification = attributes[-1]
+	#split data into the teaching set and the test set
+	splitIdx = math.floor(len(examples) * 0.8)
+	teaching = examples[:splitIdx]
+	testSet = examples[splitIdx:]
+	#build tree
+	tree = dtl(teaching, attributes, None)
+	print tree
+	#use test set to test the tree
+	
 
 #function DTL(examples, attributes, default) returns a decision tree
 #	if examples is empty then return default
@@ -81,9 +96,9 @@ def mode(examples):
 def calcGain(attribute, examples):
     gain = entropy(examples)
     attrVals = map(lambda x: attributeValOf(x, attribute), examples)
-    for v in attributeDomain(attribute):
+    for v in getDomain(attribute):
         weight = attrVals.count(v)/len(examples)
-        temp_examples = filter(lambda i: return attributeValOf(i, attribute) == v, examples)
+        temp_examples = filter(lambda i: attributeValOf(i, attribute) == v, examples)
         gain = gain - weight * entropy(temp_examples)
     return gain
 #function ENTROPY(examples) returns number
@@ -113,7 +128,7 @@ def chooseAttribute(attributes, examples):
     attr = None
     for set in attributes:
         #do not consider ignore or answer attributes
-        if attributeType(set) == 'i' or attributeType(set) == 'a':
+        if getDomainType(set) == 'i' or getDomainType(set) == 'a':
             continue
         else:
             newGain = calcGain(set, examples)
@@ -122,7 +137,8 @@ def chooseAttribute(attributes, examples):
                 attr = set
     return attr
 
-
+def accuracy(total, mistakes):
+    return (total - mistakes)/total * 100
 
 examples = [(1,),(1,),(2,),(1,),(2,),(3,),(1,),(2,),(3,),(1,),(2,),(3,),(1,),(2,),(1,)]
 

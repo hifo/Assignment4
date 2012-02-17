@@ -140,6 +140,4 @@ def chooseAttribute(attributes, examples):
 def accuracy(total, mistakes):
     return (total - mistakes)/total * 100
 
-examples = [(1,),(1,),(2,),(1,),(2,),(3,),(1,),(2,),(3,),(1,),(2,),(3,),(1,),(2,),(1,)]
-
-print mode(examples)
+run("restaurant.data", "restaurant.names")
