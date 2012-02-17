@@ -3,6 +3,7 @@ from __future__ import division
 
 import math
 import decisionTreeNode
+import data
 
 classification = ("Class", [1,2,3])
 
