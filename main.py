@@ -123,7 +123,8 @@ def chooseAttribute(attributes, examples):
                 attr = set
     return attr
 
-
+def accuracy(total, mistakes):
+    return (total - mistakes)/total * 100
 
 examples = [(1,),(1,),(2,),(1,),(2,),(3,),(1,),(2,),(3,),(1,),(2,),(3,),(1,),(2,),(1,)]
 
