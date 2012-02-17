@@ -36,7 +36,7 @@ examples = []
 
 
 for row in namesreader:
-    examples.append((row[0].strip(), row[1].strip()))
+    examples.append((row[0], row[1]))
 
 
 print examples
