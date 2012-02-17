@@ -38,23 +38,29 @@ def run(dataFile, namesFile):
 #		return tree
 
 def dtl(examples, attributes, default):
-    if examples == None:
+    if examples == []:
         return default
-    elif len(matchingExamples(examples, classification, examples[0][-1])) == len(examples):
+    elif len(matchingExamples(examples, classification, classOf(examples[0]))) == len(examples):
         return decisionTreeNode.Node(None, None, examples[0][-1], None)
-    elif attributes == None:
+    elif attributes == []:
         return mode(examples)
     else:
         best = chooseAttribute(attributes, examples)
-        tree = decisionTreeNode.Node(None, [], None, best)
-        for v in best[1]:
-            subexamples = matchingExamples(examples, best, v)
-            reducedAttrs = attributes
-            reducedAttrs.remove(best)
-            subtree = dtl(subexamples, reducedAttrs, mode(examples))
-            tree.children[v] = subtree
-            subtree.parent = tree
-        return tree
+        tree = decisionTreeNode.Node(None, {}, None, best)
+        if best != None:
+            for v in data.getDomain(best):
+                subexamples = matchingExamples(examples, best, v)
+                reducedAttrs = reduceAttrList(attributes, best)
+                subtree = dtl(subexamples, reducedAttrs, mode(examples))
+                tree.children[v] = subtree
+                subtree.parent = tree
+            return tree
+        else:
+            print "Best is None!"
+            return mode(examples)
+
+def reduceAttrList(attributes, toRemove):
+    return filter(lambda attr: data.getName(attr) != data.getName(toRemove), attributes)
 
 #returns subset of given examples in which
 #the given attribute of each item in the set has a value
@@ -124,7 +130,7 @@ def entropy(examples):
 #function CHOOSE-ATTRIBUTE(attributes, examples) returns attribute
 #	return attribute with highest gain
 def chooseAttribute(attributes, examples):
-    gain = 0
+    gain = -1
     attr = None
     for set in attributes:
         #do not consider ignore or answer attributes
