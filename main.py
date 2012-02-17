@@ -5,10 +5,24 @@ import math
 import decisionTreeNode
 import data
 
-classification = ("Class", [1,2,3])
+classification = []
 
 #attribute: list(string, string, set)
-#examples: list(tuple)
+#examples: list(tuples)
+
+
+def run(dataFile, namesFile):
+	examples, attributes = data.parseFile(dataFile, namesFile)
+	classification = attributes[-1]
+	#split data into the teaching set and the test set
+	splitIdx = math.floor(len(examples) * 0.8)
+	teaching = examples[:splitIdx]
+	testSet = examples[splitIdx:]
+	#build tree
+	tree = dtl(teaching, attributes, None)
+	print tree
+	#use test set to test the tree
+	
 
 #function DTL(examples, attributes, default) returns a decision tree
 #	if examples is empty then return default
@@ -84,7 +98,7 @@ def calcGain(attribute, examples):
     attrVals = map(lambda x: attributeValOf(x, attribute), examples)
     for v in getDomain(attribute):
         weight = attrVals.count(v)/len(examples)
-        temp_examples = filter(lambda i: return attributeValOf(i, attribute) == v, examples)
+        temp_examples = filter(lambda i: attributeValOf(i, attribute) == v, examples)
         gain = gain - weight * entropy(temp_examples)
     return gain
 #function ENTROPY(examples) returns number
