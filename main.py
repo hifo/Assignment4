@@ -15,7 +15,7 @@ def run(dataFile, namesFile):
 	examples, attributes = data.parseFile(dataFile, namesFile)
 	classification = attributes[-1]
 	#split data into the teaching set and the test set
-	splitIdx = math.floor(len(examples) * 0.8)
+	splitIdx = int(math.floor(len(examples) * 0.8))
 	teaching = examples[:splitIdx]
 	testSet = examples[splitIdx:]
 	#build tree
@@ -96,7 +96,7 @@ def mode(examples):
 def calcGain(attribute, examples):
     gain = entropy(examples)
     attrVals = map(lambda x: attributeValOf(x, attribute), examples)
-    for v in getDomain(attribute):
+    for v in data.getDomain(attribute):
         weight = attrVals.count(v)/len(examples)
         temp_examples = filter(lambda i: attributeValOf(i, attribute) == v, examples)
         gain = gain - weight * entropy(temp_examples)
@@ -128,7 +128,7 @@ def chooseAttribute(attributes, examples):
     attr = None
     for set in attributes:
         #do not consider ignore or answer attributes
-        if getDomainType(set) == 'i' or getDomainType(set) == 'a':
+        if data.getDomainType(set) == 'i' or data.getDomainType(set) == 'a':
             continue
         else:
             newGain = calcGain(set, examples)
